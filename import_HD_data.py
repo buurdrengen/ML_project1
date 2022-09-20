@@ -24,11 +24,12 @@ raw_data = df.values
 # We start by making the data matrix X by indexing into data.
 # We know that the attributes are stored in the four columns from inspecting 
 # the file.
-cols = range(0, 4) 
+cols = range(0, 11) 
 X = raw_data[:, cols]
 
 # We can extract the attribute names that came from the header of the csv
 attributeNames = np.asarray(df.columns[cols])
+print(np.size(attributeNames))
 
 # Before we can store the class index, we need to convert the strings that
 # specify the class of a given object to a numerical value. We start by 
@@ -37,6 +38,7 @@ classLabels = raw_data[:,-1] # -1 takes the last column
 # Then determine which classes are in the data by finding the set of 
 # unique class labels 
 classNames = np.unique(classLabels)
+print(classNames)
 # We can assign each type of Iris class with a number by making a
 # Python dictionary as so:
 classDict = dict(zip(classNames,range(len(classNames))))
@@ -70,6 +72,19 @@ y = np.array([classDict[cl] for cl in classLabels])
 # the shape of X
 N, M = X.shape
 
+# Enumerate over the data to change "Absent" family history to 0 and "Present" family history to 1. 
+for i,j in enumerate(X):
+    j = 5
+    if X[i,j] == "Absent":
+        X[i,j] = 0
+    if X[i,j] == "Present":
+        X[i,j] = 1
+
+# Check the size and the change to binary data. 
+print(N,M)
+#print(X[0,:])
+
 # Finally, the last variable that we need to have the dataset in the 
 # "standard representation" for the course, is the number of classes, C:
-C = len(classNames)
+C = len(classNames) 
+print(C)
