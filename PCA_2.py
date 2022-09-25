@@ -10,8 +10,11 @@ from import_HD_data import *
 import matplotlib.pyplot as plt
 from scipy.linalg import svd
 
+print(X)
 # Subtract mean value from data
 Y = X - np.ones((N,1))*X.mean(axis=0)
+np.shape(Y)
+
 
 # PCA by computing SVD of Y
 U,S,V = svd(Y,full_matrices=False)
