@@ -10,14 +10,17 @@ from import_HD_data import *
 import matplotlib.pyplot as plt
 from scipy.linalg import svd
 
-print(X)
+#print(X)
+print(np.size(X))
+print(N)
 # Subtract mean value from data
 Y = X - np.ones((N,1))*X.mean(axis=0)
-np.shape(Y)
+print(np.shape(Y))
+print(np.size(Y))
 
 
 # PCA by computing SVD of Y
-U,S,V = svd(Y,full_matrices=False)
+U,S,V = np.linalg.svd(Y,full_matrices=False)
 
 # Compute variance explained by principal componentsbvb
 rho = (S*S) / (S*S).sum() 

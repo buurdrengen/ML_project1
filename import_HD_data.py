@@ -25,11 +25,15 @@ raw_data = df.values
 # We know that the attributes are stored in the four columns from inspecting 
 # the file.
 cols = range(0, 11) 
-X = raw_data[:, cols]
+X = np.empty((462,11))
+for i, col_id in enumerate(range(1,12)):
+    X[:,i] = np.asarray(raw_data(col_id,463))
+
+print(X)
 
 # We can extract the attribute names that came from the header of the csv
 attributeNames = np.asarray(df.columns[cols])
-print(np.size(attributeNames))
+print('attributenames equals',np.size(attributeNames))
 
 # Before we can store the class index, we need to convert the strings that
 # specify the class of a given object to a numerical value. We start by 
@@ -38,7 +42,7 @@ classLabels = raw_data[:,-1] # -1 takes the last column
 # Then determine which classes are in the data by finding the set of 
 # unique class labels 
 classNames = np.unique(classLabels)
-print(classNames)
+print('classnames equals',classNames)
 # We can assign each type of Iris class with a number by making a
 # Python dictionary as so:
 classDict = dict(zip(classNames,range(len(classNames))))
@@ -81,10 +85,16 @@ for i,j in enumerate(X):
         X[i,j] = 1
 
 # Check the size and the change to binary data. 
-print(N,M)
+print('N and M equals',N,M)
 #print(X[0,:])
 
 # Finally, the last variable that we need to have the dataset in the 
 # "standard representation" for the course, is the number of classes, C:
 C = len(classNames) 
-print(C)
+print('C equals',C)
+
+# # Change to float: 
+# for i in range(len(X)):
+#     for j in range(len(X[i])):
+#         X[i,j] = float(X[i,j])
+#X2 = pd.to_numeric(X,errors='ignore')
