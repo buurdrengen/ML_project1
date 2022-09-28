@@ -25,7 +25,7 @@ raw_data = df2.values
 # We start by making the data matrix X by indexing into data.
 # We know that the attributes are stored in the four columns from inspecting 
 # the file.
-cols = range(0, 11) 
+cols = range(1, 10) 
 X = raw_data[:,cols]
 
 # Enumerate over the data to change "Absent" family history to 0 and "Present" family history to 1. 
@@ -75,6 +75,7 @@ classDict = dict(zip(classNames,range(len(classNames))))
 # in the dictionary, and determine which numerical value that object is 
 # assigned. This is the class index vector y:
 y = np.array([classDict[cl] for cl in classLabels])
+print(y)
 # In the above, we have used the concept of "list comprehension", which
 # is a compact way of performing some operations on a list or array.
 # You could read the line  "For each class label (cl) in the array of 

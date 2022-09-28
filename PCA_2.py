@@ -21,11 +21,12 @@ print(np.size(Y))
 
 # PCA by computing SVD of Y
 U,S,V = svd(Y,full_matrices=False)
+print(U,S,V)
 
 # Compute variance explained by principal componentsbvb
 rho = (S*S) / (S*S).sum() 
-
-threshold = 0.95
+print(rho)
+threshold = 0.9
 
 # Plot variance explained
 plt.figure()
