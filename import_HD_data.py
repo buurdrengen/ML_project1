@@ -11,11 +11,12 @@ import pandas as pd
 # Load the Iris csv data using the Pandas library
 filename = 'data.csv'
 df = pd.read_csv(filename)
+df2 = df.apply(pd.to_numeric,errors='coerce')
 
 # Pandas returns a dataframe, (df) which could be used for handling the data.
 # We will however convert the dataframe to numpy arrays for this course as 
 # is also described in the table in the exercise
-raw_data = df.values  
+raw_data = df2.values  
 
 # Notice that raw_data both contains the information we want to store in an array
 # X (the sepal and petal dimensions) and the information that we wish to store 
@@ -25,11 +26,24 @@ raw_data = df.values
 # We know that the attributes are stored in the four columns from inspecting 
 # the file.
 cols = range(0, 11) 
-X = np.empty((462,11))
-for i, col_id in enumerate(range(1,12)):
-    X[:,i] = np.asarray(raw_data(col_id,463))
+X = raw_data[:,cols]
 
+# Enumerate over the data to change "Absent" family history to 0 and "Present" family history to 1. 
+# for i,j in enumerate(X):
+#     j = 5
+#     if X[i,j] == "Absent":
+#         X[i,j] = 0
+#     if X[i,j] == "Present":
+#         X[i,j] = 1
+print(X.dtype)
+print(np.size(X))
+print(np.shape(X))
 print(X)
+# Enumerate over the data to change "0" CHD to  and "Present" family history to 1. 
+#X[:,10] = ['Response' if x == 1 else x for x in X[:,10]]
+#X[:,10] = ['No response' if x == 0 else x for x in X[:,10]]
+
+print(X[0,:],X[2,:])
 
 # We can extract the attribute names that came from the header of the csv
 attributeNames = np.asarray(df.columns[cols])
@@ -38,7 +52,7 @@ print('attributenames equals',np.size(attributeNames))
 # Before we can store the class index, we need to convert the strings that
 # specify the class of a given object to a numerical value. We start by 
 # extracting the strings for each sample from the raw data loaded from the csv:
-classLabels = raw_data[:,-1] # -1 takes the last column
+classLabels = X[:,-1] # -1 takes the last column
 # Then determine which classes are in the data by finding the set of 
 # unique class labels 
 classNames = np.unique(classLabels)
@@ -76,13 +90,7 @@ y = np.array([classDict[cl] for cl in classLabels])
 # the shape of X
 N, M = X.shape
 
-# Enumerate over the data to change "Absent" family history to 0 and "Present" family history to 1. 
-for i,j in enumerate(X):
-    j = 5
-    if X[i,j] == "Absent":
-        X[i,j] = 0
-    if X[i,j] == "Present":
-        X[i,j] = 1
+
 
 # Check the size and the change to binary data. 
 print('N and M equals',N,M)
@@ -92,7 +100,7 @@ print('N and M equals',N,M)
 # "standard representation" for the course, is the number of classes, C:
 C = len(classNames) 
 print('C equals',C)
-
+print(X.dtype)
 # # Change to float: 
 # for i in range(len(X)):
 #     for j in range(len(X[i])):

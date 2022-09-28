@@ -20,7 +20,7 @@ print(np.size(Y))
 
 
 # PCA by computing SVD of Y
-U,S,V = np.linalg.svd(Y,full_matrices=False)
+U,S,V = svd(Y,full_matrices=False)
 
 # Compute variance explained by principal componentsbvb
 rho = (S*S) / (S*S).sum() 
