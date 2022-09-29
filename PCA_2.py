@@ -13,19 +13,26 @@ from scipy.linalg import svd
 #print(X)
 print(np.size(X))
 print(N)
-# Subtract mean value from data
-Y = X - np.ones((N,1))*X.mean(axis=0)
+# Subtract mean value from data 
+# AND divide by the standard deviation to standardize the data, since the attributes have very different scales/values. 
+Y = (X - np.ones((N,1))*X.mean(axis=0))/ np.std(X)
 print(np.shape(Y))
 print(np.size(Y))
 
-
 # PCA by computing SVD of Y
 U,S,V = svd(Y,full_matrices=False)
-print(U,S,V)
+print('U = ', U)
+print('S = ', S)
+print('V = ', V)
 
-# Compute variance explained by principal componentsbvb
+# Compute variance explained by principal components bvb 
 rho = (S*S) / (S*S).sum() 
-print(rho)
+print('rho = ', rho)
+
+# The variance explained by the first three principal components: 
+cumvar = rho[0] + rho[1] + rho[2]
+print('cumvar = ',cumvar)
+
 threshold = 0.9
 
 # Plot variance explained

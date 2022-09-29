@@ -43,11 +43,11 @@ plt.show()
 # %%
 # Make another more fancy plot that includes legend, class labels, 
 # attribute names, and a title.
-f = figure()
-title('CHD data')
+#f = figure()
+#title('CHD data')
 
-plot(X[:,7],X[:,8],'o',alpha=.3)
-show()
+#plot(X[:,7],X[:,8],'o',alpha=.3)
+#show()
 # for c in range(C):
 #     # select indices belonging to class c:
 #     class_mask = y==c
