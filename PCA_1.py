@@ -8,11 +8,12 @@
 # Imports the numpy and xlrd package, then runs the ex2_1_1 code
 from import_HD_data import *
 
-from matplotlib.pyplot import figure, plot, title, legend, xlabel, ylabel, show
-
+import matplotlib.pyplot as plt
 # # Data attributes to be plotted
 # i = 4
 # j = 9
+
+# Correlation?
 
 print(X[:,0],X[:,1])
 
@@ -20,6 +21,17 @@ print(np.correlate(X[:,0],X[:,1]))
 
 matrix = np.round(np.corrcoef(X),3)
 print(matrix)
+
+
+# Boxplot? 
+
+fig = plt.figure()
+
+plt.boxplot(X)
+plt.show()
+
+# Attributes normal distributed? 
+
 
 
 ##
