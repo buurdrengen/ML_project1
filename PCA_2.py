@@ -30,10 +30,10 @@ rho = (S*S) / (S*S).sum()
 print('rho = ', rho)
 
 # The variance explained by the first three principal components: 
-cumvar = rho[0] + rho[1] + rho[2]
+cumvar = rho[0] + rho[1] + rho[2] + rho[3]
 print('cumvar = ',cumvar)
 
-threshold = 0.9
+threshold = 0.95
 
 # Plot variance explained
 plt.figure()
