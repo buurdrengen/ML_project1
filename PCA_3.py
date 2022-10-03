@@ -8,6 +8,7 @@ from import_HD_data import *
 
 import matplotlib.pyplot as plt
 from scipy.linalg import svd
+from mpl_toolkits.mplot3d import Axes3D
 
 Y = (X - np.ones((N,1))*X.mean(0)) / np.std(X)
 print(Y)
@@ -73,3 +74,22 @@ print('Age projection onto PC2')
 print(age_data[0,:]@V[:,1])
 print('Age projection onto PC3')
 print(age_data[0,:]@V[:,2])
+
+## Plotting of the first three principal components. 
+to_plot = np.array([V[:,0],V[:,1],V[:,2]])
+print(to_plot)
+fig = plt.figure()
+ax = fig.add_subplot(111,projection='3d')
+for vector in to_plot:
+    v = np.array([vector[3],vector[4],vector[5]])
+    vlength=np.linalg.norm(v)
+    ax.quiver(vector[0],vector[1],vector[2],vector[3],vector[4],vector[5],vector[6],vector[7],vector[8], pivot='tail',length=vlength,arrow_length_ratio=0.3/vlength)
+# R, T, I, O, P, L, K, J, H = zip(*to_plot)
+# ax.quiver(R,T,I,O,P,L,K,J,H)
+ax.set_xlim([-1,1])
+ax.set_ylim([-1,1])
+ax.set_zlim([-1,1])
+ax.set_xlabel('x')
+ax.set_xlabel('y')
+ax.set_xlabel('z')
+plt.show()
