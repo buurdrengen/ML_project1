@@ -23,7 +23,7 @@ print(np.size(Y))
 U,S,V = svd(Y,full_matrices=False)
 print('U = ', U)
 print('S = ', S)
-print('V = ', V)
+print('V(3) = ', V[:,2])
 
 # Compute variance explained by principal components bvb 
 rho = (S*S) / (S*S).sum() 

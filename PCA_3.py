@@ -9,7 +9,8 @@ from import_HD_data import *
 import matplotlib.pyplot as plt
 from scipy.linalg import svd
 
-Y = X - np.ones((N,1))*X.mean(0)
+Y = (X - np.ones((N,1))*X.mean(0)) / np.std(X)
+print(Y)
 U,S,Vh = svd(Y,full_matrices=False)
 V=Vh.T
 N,M = X.shape
@@ -31,20 +32,26 @@ plt.grid()
 plt.title('CHD: PCA Component Coefficients')
 plt.show()
 
-# Inspecting the plot, we see that the 2nd principal component has large
-# (in magnitude) coefficients for attributes A, E and H. We can confirm
-# this by looking at it's numerical values directly, too:
-print('PC2:')
-print(V[:,1].T)
 
-# How does this translate to the actual data and its projections?
-# Looking at the data for water:
+# The different classes with great magnitude from all the principal components.
+alcohol_data = Y[y==8,:]
+sbp_data = Y[y==0,:]
+age_data = Y[y==9,:]
+print('V(1):')
+print(V[:,0])
 
-# Projection of water class onto the 2nd principal component.
-all_water_data = Y[y==4,:]
+## Sbp 
+print('sbp data:')
+print(sbp_data[0,:])
 
-print('First water observation')
-print(all_water_data[0,:])
+print('SBPs projection onto PC2')
+print(sbp_data[0,:]@V[:,1])
+print('SBPs projection onto PC3')
+print(sbp_data[0,:]@V[:,2])
+
+## Alcohol
+print('alcohol_data')
+print(alcohol_data[0,:])
 
 # Based on the coefficients and the attribute values for the observation
 # displayed, would you expect the projection onto PC2 to be positive or
@@ -52,6 +59,17 @@ print(all_water_data[0,:])
 # coefficient and the attribute!
 
 # You can determine the projection by (remove comments):
-print('...and its projection onto PC2')
-print(all_water_data[0,:]@V[:,1])
+print('Alcohols projection onto PC1')
+print(alcohol_data[0,:]@V[:,0])
+print('Alcohols projection onto PC2')
+print(alcohol_data[0,:]@V[:,1])
 # Try to explain why?
+
+## Age 
+print('Age data')
+print(age_data[0,:])
+
+print('Age projection onto PC2')
+print(age_data[0,:]@V[:,1])
+print('Age projection onto PC3')
+print(age_data[0,:]@V[:,2])
