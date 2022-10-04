@@ -30,10 +30,10 @@ rho = (S*S) / (S*S).sum()
 print('rho = ', rho)
 
 # The variance explained by the first three principal components: 
-cumvar = rho[0] + rho[1] + rho[2] + rho[3]
+cumvar = rho[0] + rho[1] + rho[2] #+ rho[3]
 print('cumvar = ',cumvar)
 
-threshold = 0.95
+threshold = 0.9
 
 # Plot variance explained
 plt.figure()
@@ -46,5 +46,3 @@ plt.ylabel('Variance explained');
 plt.legend(['Individual','Cumulative','Threshold'])
 plt.grid()
 plt.show()
-
-print('Ran Exercise 2.1.3')

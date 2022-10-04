@@ -16,9 +16,7 @@ U,S,Vh = svd(Y,full_matrices=False)
 V=Vh.T
 N,M = X.shape
 
-# We saw in 2.1.3 that the first 3 components explaiend more than 90
-# percent of the variance. Let's look at their coefficients:
-pcs = [0,1,2,3]
+pcs = [0,1,2]
 legendStrs = ['PC'+str(e+1) for e in pcs]
 c = ['r','g','b']
 bw = .2
@@ -61,24 +59,17 @@ print(sbp_data[0,:]@V[:,2])
 print('alcohol_data')
 print(alcohol_data[0,:])
 
-# Based on the coefficients and the attribute values for the observation
-# displayed, would you expect the projection onto PC2 to be positive or
-# negative - why? Consider *both* the magnitude and sign of *both* the
-# coefficient and the attribute!
-
-# You can determine the projection by (remove comments):
+# Determine the projection by:
 print('Alcohols projection onto PC1')
 print(alcohol_data[0,:]@V[:,0])
 print('Alcohols projection onto PC2')
 print(alcohol_data[0,:]@V[:,1])
 print('Alcohols projection onto PC3')
 print(alcohol_data[0,:]@V[:,2])
-# Try to explain why?
 
 ## Age 
 print('Age data')
 print(age_data[0,:])
-
 print('Age projection onto PC1')
 print(age_data[0,:]@V[:,0])
 print('Age projection onto PC2')
