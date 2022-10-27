@@ -39,13 +39,15 @@ classDict = dict(zip(classNames,range(len(classNames))))
 
 #This is the class index vector y:
 y = np.array([classDict[cl] for cl in classLabels])
-print('y equals',y)
+print('Y:')
+print(y)
 
 N, M = X.shape
 
 print('N and M equals',N,M)
-print(X[0,:])
+#print(X[0,:])
 
 C = len(classNames) 
 print('C equals',C)
 print(X.dtype)
+
