@@ -14,7 +14,7 @@ df2 = df.apply(pd.to_numeric,errors='coerce')
 
 raw_data = df2.values  
 
-cols = range(1, 10) 
+cols = range(1, 11) 
 X = raw_data[:,cols]
 
 # print(X.dtype)
@@ -39,12 +39,12 @@ classDict = dict(zip(classNames,range(len(classNames))))
 
 #This is the class index vector y:
 y = np.array([classDict[cl] for cl in classLabels])
-print(y)
+print('y equals',y)
 
 N, M = X.shape
 
 print('N and M equals',N,M)
-#print(X[0,:])
+print(X[0,:])
 
 C = len(classNames) 
 print('C equals',C)
