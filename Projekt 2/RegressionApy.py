@@ -25,7 +25,5 @@ for i in range(4):
 for i in range(4):
     X[:,i+5] = (X[:,i+5]-np.mean(X[:,i+5]))/np.std(X[:,i+5])
 for i in range(10):
-#    print(np.mean(X[:,i]))
-#    print(np.std(X[:,i]))
-
-
+    print(np.mean(X[:,i]))
+    print(np.std(X[:,i]))
