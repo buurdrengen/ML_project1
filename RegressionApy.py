@@ -19,8 +19,13 @@ raw_data = df2.values
 cols = range(1, 11) 
 X = raw_data[:,cols]
 
-#Transform mean=0 og STD=1
+#Transform mean=0 og STD=1 for each column except binary data
+for i in range(4):
+    X[:,i] = (X[:,i]-np.mean(X[:,i]))/np.std(X[:,i])
+for i in range(4):
+    X[:,i+5] = (X[:,i+5]-np.mean(X[:,i+5]))/np.std(X[:,i+5])
+for i in range(10):
+#    print(np.mean(X[:,i]))
+#    print(np.std(X[:,i]))
 
-X = (X-np.mean(X))/np.std(X)
-print(np.mean(X[:,]))
-print(np.std(X))
+
