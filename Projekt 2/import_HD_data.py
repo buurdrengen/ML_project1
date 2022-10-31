@@ -41,7 +41,7 @@ classDict = dict(zip(classNames,range(len(classNames))))
 y = raw_data[:,10]
 print('Y:')
 print(y)
-
+print(y.dtype)
 N, M = X.shape
 
 print('N and M equals',N,M)
