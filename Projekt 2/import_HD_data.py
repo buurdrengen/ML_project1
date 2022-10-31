@@ -45,7 +45,7 @@ print(y)
 N, M = X.shape
 
 print('N and M equals',N,M)
-#print(X[0,:])
+print(X[0,:])
 
 C = len(classNames) 
 print('C equals',C)
