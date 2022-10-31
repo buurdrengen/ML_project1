@@ -27,3 +27,5 @@ for i in range(4):
 for i in range(10):
     print(np.mean(X[:,i]))
     print(np.std(X[:,i]))
+
+#%%
