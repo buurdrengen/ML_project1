@@ -14,13 +14,13 @@ df2 = df.apply(pd.to_numeric,errors='coerce')
 
 raw_data = df2.values  
 
-cols = range(1, 11) 
+cols = range(1, 10) 
 X = raw_data[:,cols]
 
 # print(X.dtype)
 # print(np.size(X))
 # print(np.shape(X))
-# print(X)
+print(X)
 
 # print(X[0,:],X[2,:])
 
@@ -38,7 +38,7 @@ classDict = dict(zip(classNames,range(len(classNames))))
 
 
 #This is the class index vector y:
-y = np.array([classDict[cl] for cl in classLabels])
+y = raw_data[:,10]
 print('Y:')
 print(y)
 
