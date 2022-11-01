@@ -2,7 +2,7 @@
 # 
 # Author: Aksel Buur Christensen, s203947
 # 
-# Logistic regression 
+# Logistic regression unreguralized 
 from matplotlib.pylab import figure, plot, xlabel, ylabel, legend, ylim, show
 import sklearn.linear_model as lm
 from import_HD_data import * 
