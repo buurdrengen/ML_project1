@@ -14,14 +14,9 @@ from import_HD_data import *
 font_size = 15
 plt.rcParams.update({'font.size': font_size})
 
-
-# Create crossvalidation partition for evaluation
-# using stratification and 95 pct. split between training and test 
-#K = 20
+#Using 0.99 of the data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.99, stratify=y)
-# Try to change the test_size to e.g. 50 % and 99 % - how does that change the 
-# effect of regularization? How does differetn runs of  test_size=.99 compare 
-# to eachother?
+
 
 # Standardize the training and set set based on training set mean and std
 mu = np.mean(X_train, 0)
@@ -35,8 +30,8 @@ X_test = (X_test - mu) / sigma
 print(X_test)
 # Fit regularized logistic regression model to training data to predict 
 # the type of wine
-lambda_interval = np.logspace(-10, 10, 50)
-#print(lambda_interval)
+lambda_interval = np.logspace(-8, 8, 50)
+print('lambda interval:',lambda_interval)
 train_error_rate = np.zeros(len(lambda_interval))
 test_error_rate = np.zeros(len(lambda_interval))
 coefficient_norm = np.zeros(len(lambda_interval))
@@ -86,4 +81,4 @@ plt.savefig('l2norm_logreg.png')
 plt.show()    
 
 
-print('Ran Exercise 9.1.1')
+print('Ran Logreg-regularized')
