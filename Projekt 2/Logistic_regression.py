@@ -21,7 +21,7 @@ print('y_healthy_estimated:',y_est_healthy_prob)
 misses = np.sum(y_est != y)
 print(f'Amount of misses: {misses} of {len(y_est)}.')
 # Define a new data object (using first patient from the data.csv)
-x = np.array([120, 0, 2, 20, 1, 45, 22, 25, 23]).reshape(1,-1)
+x = np.array([160, 12, 5.73, 23.11, 1, 49, 25.3, 97.2, 52]).reshape(1,-1)
 # Evaluate the probability of x having CHD: 
 x_class = model.predict_proba(x)[0,1]
 
