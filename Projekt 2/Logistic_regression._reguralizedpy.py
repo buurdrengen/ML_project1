@@ -14,19 +14,10 @@ from import_HD_data import *
 font_size = 15
 plt.rcParams.update({'font.size': font_size})
 
-# # Load Matlab data file and extract variables of interest
-# mat_data = loadmat('C:/Users/buurd/OneDrive/Dokumenter/DTU/ML_02450/02450Toolbox_Python/Data/wine2.mat')
-# X = mat_data['X']
-# y = mat_data['y'].squeeze()
-# attributeNames = [name[0] for name in mat_data['attributeNames'][0]]
-# classNames = [name[0][0] for name in mat_data['classNames']]
-#N, M = X.shape
-#C = len(classNames)
-
 
 # Create crossvalidation partition for evaluation
 # using stratification and 95 pct. split between training and test 
-K = 20
+#K = 20
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.99, stratify=y)
 # Try to change the test_size to e.g. 50 % and 99 % - how does that change the 
 # effect of regularization? How does differetn runs of  test_size=.99 compare 
@@ -66,7 +57,7 @@ for k in range(0, len(lambda_interval)):
 min_error = np.min(test_error_rate)
 opt_lambda_idx = np.argmin(test_error_rate)
 opt_lambda = lambda_interval[opt_lambda_idx]
-
+print(opt_lambda)
 plt.figure(figsize=(8,8))
 #plt.plot(np.log10(lambda_interval), train_error_rate*100)
 #plt.plot(np.log10(lambda_interval), test_error_rate*100)
@@ -74,7 +65,7 @@ plt.figure(figsize=(8,8))
 plt.semilogx(lambda_interval, train_error_rate*100)
 plt.semilogx(lambda_interval, test_error_rate*100)
 plt.semilogx(opt_lambda, min_error*100, 'o')
-plt.text(1e-8, 3, "Minimum test error: " + str(np.round(min_error*100,2)) + ' % at 1e' + str(np.round(np.log10(opt_lambda),2)))
+plt.text(0.001, 3, "Minimum test error: " + str(np.round(min_error*100,2)) + ' % at ' + str(np.round(opt_lambda,2)))
 plt.xlabel('Regularization strength, $\log_{10}(\lambda)$')
 plt.ylabel('Error rate (%)')
 plt.title('Classification error')
