@@ -24,7 +24,7 @@ from toolbox_02450 import rlr_validate
 
 filename = 'data.csv'
 df = pd.read_csv(filename)
-#df2 = df.apply(pd.to_numeric,errors='coerce')
+
 
 raw_data = df.values  
 
@@ -33,18 +33,15 @@ X = raw_data[:,cols]
 y = raw_data[:,10]
 
 #Transform mean=0 og STD=1
-#Transform mean=0 og STD=1 for each column except binary data
-for i in range(4):
+for i in range(len(cols)):
     X[:,i] = (X[:,i]-np.mean(X[:,i]))/np.std(X[:,i])
-for i in range(4):
-    X[:,i+5] = (X[:,i+5]-np.mean(X[:,i+5]))/np.std(X[:,i+5])
 
 
 ## K = 10 fold Crossvalidation
 
 # Values of lambda
-lambdas = np.power(10.,range(-1,5))
-
+#lambdas = np.power(10.,range(1,5))
+lambdas = np.linspace(0.01,10,10)
 A = rlr_validate(X,y,lambdas,cvf=10)
 
 # opt_val_err, opt_lambda, mean_w_vs_lambda, train_err_vs_lambda, test_err_vs_lambda
