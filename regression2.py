@@ -14,7 +14,7 @@ from scipy.io import loadmat
 import sklearn.linear_model as lm
 from sklearn import model_selection
 from toolbox_02450 import rlr_validate
-import AAN_model
+from ANN_model import se
 
 filename = 'data.csv'
 df = pd.read_csv(filename)
@@ -96,8 +96,10 @@ for train_index, test_index in CV.split(X,y):
     # Estimate weights for unregularized linear regression, on entire training set
     w_noreg[:,k] = np.linalg.solve(XtX,Xty).squeeze()
     # Compute mean squared error without regularization
-    Error_train[k] = np.square(y_train-X_train @ w_noreg[:,k]).sum(axis=0)/y_train.shape[0]
-    Error_test[k] = np.square(y_test-X_test @ w_noreg[:,k]).sum(axis=0)/y_test.shape[0]
+    m = lm.LinearRegression().fit(X_train, y_train)
+    Error_train[k] = np.square(y_train-m.predict(X_train)).sum()/y_train.shape[0]
+    Error_test[k] = np.square(y_test-m.predict(X_test)).sum()/y_test.shape[0]
+
 
 
     # Display the results for the last cross-validation fold
@@ -122,6 +124,7 @@ for train_index, test_index in CV.split(X,y):
     
     # Display Table
     print('Cross validation fold {0}/{1}:'.format(k+1,K))
+    print('- Error:                            {0}'.format(se[k]))
     print('- Linear regression lambda:         {0}'.format(lambdas[k]))
     print('- Linear regression test error:     {0}'.format(Error_test_rlr[k]))
     print('- Baseline Test error:              {0}'.format(Error_test_nofeatures[k]))
