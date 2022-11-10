@@ -14,6 +14,7 @@ from scipy.io import loadmat
 import sklearn.linear_model as lm
 from sklearn import model_selection
 from toolbox_02450 import rlr_validate
+import AAN_model
 
 filename = 'data.csv'
 df = pd.read_csv(filename)
@@ -26,12 +27,9 @@ X = raw_data[:,cols]
 y = raw_data[:,10]
 
 #Transform mean=0 og STD=1
-#Transform mean=0 og STD=1 for each column except binary data
-for i in range(4):
+for i in range(len(cols)):
     X[:,i] = (X[:,i]-np.mean(X[:,i]))/np.std(X[:,i])
-for i in range(4):
-    X[:,i+5] = (X[:,i+5]-np.mean(X[:,i+5]))/np.std(X[:,i+5])
-
+    
 N, M = X.shape
 
     
@@ -45,7 +43,7 @@ K = 10
 CV = model_selection.KFold(K, shuffle=True)
 
 # Values of lambda
-lambdas = np.power(10.,range(-1,5))
+lambdas = np.power(10.,range(-5,5))
 
 # Initialize variables
 Error_train = np.empty((K,1))
@@ -100,10 +98,7 @@ for train_index, test_index in CV.split(X,y):
     # Compute mean squared error without regularization
     Error_train[k] = np.square(y_train-X_train @ w_noreg[:,k]).sum(axis=0)/y_train.shape[0]
     Error_test[k] = np.square(y_test-X_test @ w_noreg[:,k]).sum(axis=0)/y_test.shape[0]
-    # OR ALTERNATIVELY: you can use sklearn.linear_model module for linear regression:
-    #m = lm.LinearRegression().fit(X_train, y_train)
-    #Error_train[k] = np.square(y_train-m.predict(X_train)).sum()/y_train.shape[0]
-    #Error_test[k] = np.square(y_test-m.predict(X_test)).sum()/y_test.shape[0]
+
 
     # Display the results for the last cross-validation fold
     if k == K-1:
@@ -125,26 +120,16 @@ for train_index, test_index in CV.split(X,y):
         legend(['Train error','Validation error'])
         grid()
     
-    # To inspect the used indices, use these print statements
-    #print('Cross validation fold {0}/{1}:'.format(k+1,K))
-    #print('Train indices: {0}'.format(train_index))
-    #print('Test indices: {0}\n'.format(test_index))
+    # Display Table
+    print('Cross validation fold {0}/{1}:'.format(k+1,K))
+    print('- Linear regression lambda:         {0}'.format(lambdas[k]))
+    print('- Linear regression test error:     {0}'.format(Error_test_rlr[k]))
+    print('- Baseline Test error:              {0}'.format(Error_test_nofeatures[k]))
+
 
     k+=1
 
 show()
-# Display results
-print('Linear regression without feature selection:')
-print('- Training error: {0}'.format(Error_train.mean()))
-print('- Test error:     {0}'.format(Error_test.mean()))
-print('- R^2 train:     {0}'.format((Error_train_nofeatures.sum()-Error_train.sum())/Error_train_nofeatures.sum()))
-print('- R^2 test:     {0}\n'.format((Error_test_nofeatures.sum()-Error_test.sum())/Error_test_nofeatures.sum()))
-print('Regularized linear regression:')
-print('- Training error: {0}'.format(Error_train_rlr.mean()))
-print('- Test error:     {0}'.format(Error_test_rlr.mean()))
-print('- R^2 train:     {0}'.format((Error_train_nofeatures.sum()-Error_train_rlr.sum())/Error_train_nofeatures.sum()))
-print('- R^2 test:     {0}\n'.format((Error_test_nofeatures.sum()-Error_test_rlr.sum())/Error_test_nofeatures.sum()))
 
-print('Weights in last fold:')
-for m in range(M):
-    print('{:>15} {:>15}'.format(attributeNames[m], np.round(w_rlr[m,-1],2)))
+
+
