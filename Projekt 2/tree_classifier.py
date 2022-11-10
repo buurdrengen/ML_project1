@@ -2,9 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import loadmat
 from sklearn import model_selection
-from sklearn.linear_model import LogisticRegression
+from sklearn import model_selection,tree
+from sklearn.model_selection import train_test_split
 from toolbox_02450 import rocplot, confmatplot
 from import_HD_data import * 
+
+## Tree classifier ## 
 
 CV = model_selection.KFold(n_splits=10)
 
@@ -29,16 +32,16 @@ for train_index, test_index in CV.split(X,y):
     y_test = y[test_index]
 
     # Standardize data 
-    mu = np.mean(X_train,0)
-    sigma = np.std(X_train,0)
+    # mu = np.mean(X_train,0)
+    # sigma = np.std(X_train,0)
 
-    X_train = ( X_train - mu ) / sigma
-    X_test = ( X_test - mu ) / sigma 
+    # X_train = ( X_train - mu ) / sigma
+    # X_test = ( X_test - mu ) / sigma 
 
-    # Fit classifier - logistic regression.
-    lgr = LogisticRegression(penalty='l2',C=1/lambda_interval[i])
-    lgr = lgr.fit(X_train,y_train)
-    y_est = lgr.predict(X_test)
+    # Fit classifier - tree classifier.
+    dtc = tree.DecisionTreeClassifier(criterion='gini',max_depth=15)
+    dtc = dtc.fit(X_train,y_train)
+    y_est = dtc.predict(X_test)
     
     # Calculate the error
     de_test = np.sum(y_est != y_test) / len(y_test)
@@ -60,5 +63,3 @@ opt_lambda_idx = np.argmin(test_error)
 opt_lambda = lambda_interval[opt_lambda_idx]
 print('optimal lambda',opt_lambda)
 z = y_true - yhat
-
-print('Accuracy:',np.count_nonzero(z)/np.size(z))
