@@ -40,8 +40,8 @@ for i in range(len(cols)):
 ## K = 10 fold Crossvalidation
 
 # Values of lambda
-#lambdas = np.power(10.,range(1,5))
-lambdas = np.linspace(0.01,10,10)
+lambdas = np.power(10.,range(1,5))
+#lambdas = np.linspace(0.01,10,10)
 A = rlr_validate(X,y,lambdas,cvf=10)
 
 # opt_val_err, opt_lambda, mean_w_vs_lambda, train_err_vs_lambda, test_err_vs_lambda
