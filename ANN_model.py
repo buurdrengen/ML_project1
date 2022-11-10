@@ -22,7 +22,7 @@ raw_data = df.values
 
 cols = range(1, 10) 
 X = raw_data
-y = X[:,[10]]             # alcohol contents (target)
+y = X[:,[10]]
 X = X[:,:10]            # CHD Target
 N, M = X.shape
 C = 2
