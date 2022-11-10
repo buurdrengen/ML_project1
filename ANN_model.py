@@ -34,8 +34,6 @@ X = stats.zscore(X)
 
 #%% ANN MODEL
                 
-# Normalize data
-X = stats.zscore(X)
                 
 ## Normalize and compute PCA (change to True to experiment with PCA preprocessing)
 do_pca_preprocessing = False
