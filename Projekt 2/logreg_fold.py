@@ -40,8 +40,8 @@ test_error_base = []
 
 # From HD_data it is counted from y how many subjects has CHD (1) and how many does not have CHD (0).
 sizey = np.size(y) # sizey = 462
-no_CHD = np.count_nonzero(y)
-CHD = sizey - no_CHD
+no_CHD = np.count_nonzero(y) #no CHD = 160
+CHD = sizey - no_CHD # CHD = 302
 print('chd,no-chd:',CHD,',',no_CHD)
 
 for train_index, test_index in CV.split(X,y):
@@ -85,10 +85,11 @@ for train_index, test_index in CV.split(X,y):
     # Fit classifier - Baseline
     dy_base = []
     y_est_base = np.ones((np.size(y_est_tree),1))
+    
     dy_base.append(y_est_base)
     # Calculate the error
     de_base = np.sum(y_est_base != y_test) / len(y_test)
-
+    print(de_base)
     # Save the estimate log
     dy_log = np.stack(dy_log, axis = 1)
     #print('dy-log',dy_log)
@@ -173,6 +174,6 @@ plt.grid()
 plt.savefig('tree_fold.png')
 plt.show()
 
-print('Accuracy_log:',np.count_nonzero(z_log)/np.size(z_log))
+print('Accuracy_log:{0}'.format(np.count_nonzero(z_log)/np.size(z_log)))
 print('Accuracy_tree:',np.count_nonzero(z_tree)/np.size(z_tree))
 print('Accuracy_base:',np.count_nonzero(z_base)/np.size(z_base))
