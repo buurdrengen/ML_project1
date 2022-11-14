@@ -128,6 +128,7 @@ y_true_log = np.concatenate(y_true_log)
 print('test-error_log:',test_error_log[-10:])
 print('lambda:',lambda_interval)
 min_error_log = np.min(test_error_log)
+
 opt_lambda_idx = np.argmin(test_error_log)
 opt_lambda = lambda1[opt_lambda_idx]
 print('optimal lambda',opt_lambda)

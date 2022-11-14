@@ -48,23 +48,51 @@ print('The training error:',train_error_rate)
 print('The test error:',test_error_rate)
 
 
+
+
+#u.append(min(a1[0:2]))
+# u.append(np.min(a1[2:5]))
+# u.append(np.min(a1[6:9]))
+#print(u)
 import numpy as np 
-a1 = np.array([1,-1.4,2.6])
-a2 = np.array([1,-0.6,-1.6])
-a3 = np.array([1,2.1,5.0])
-a4 = np.array([1,0.7,3.8])
-w1 = np.array([1.2,-2.1,3.2])
-w2 = np.array([1.2,-1.7,2.9])
-w3 = np.array([1.3,-1.1,2.2])
-print(np.dot(a1,w1))
+a1 = np.array([0.243,0.365,0.763,0.458,0.245,0.378,0.256,0.287,0.393,0.374,0.532,0.489])
+u = []
+h_idx = []
+for i, e in enumerate(a1): 
+    h_idx.append(i)
+    u.append(min(a1[10*i:10*i+2]))
+    print(i)
+    print(e)
+    print(h_idx)
+    print(u)
+h = []
 
-print(1/(1+np.exp(np.dot(a1,w1))+np.exp(np.dot(a1,w2))+np.exp(np.dot(a1,w3))))
-print(1/(1+np.exp(np.dot(a2,w1))+np.exp(np.dot(a2,w2))+np.exp(np.dot(a2,w3))))
-print(1/(1+np.exp(np.dot(a3,w1))+np.exp(np.dot(a3,w2))+np.exp(np.dot(a3,w3))))
-print(1/(1+np.exp(np.dot(a4,w1))+np.exp(np.dot(a4,w2))+np.exp(np.dot(a4,w3))))
+h1 = np.argmin(a1)
+print(h1)
+if h1 <= 2: 
+    h1 = h1 
+if h1/3 == 1: 
+    h1 = 0
+if h1%3 == 1: 
+    h1 = 1
+if h1%3 == 2: 
+    h1 = 2
+print(h1)
 
-# b = np.ones((10,1))
-# print(b)
+for j in range(0,3):
+    print(j)
+    b = a1[j::3]
+    print(b)
+    h.append(np.argmin(b))
+    print(b,h)
+
+u = []
+n = np.array([[0,1,2],[3,4,5],[6,7,8],[9,10,11]])
+print(n)
+for j in n:
+    print(j)
+    u.append(min(a1[n[j,:]]))
+    print(u)
 # c = np.ones([10])
 # print(c)
 # d = np.arange(10,21,dtype=int)
