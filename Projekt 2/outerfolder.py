@@ -27,8 +27,8 @@ yhat_base = []
 y_true_base = []
 
 # Lambda interval 
-lambda_interval = np.logspace(-5, 1, 100)
-
+lambda_interval = np.logspace(-5, 1.5, 10)
+lambda1 = np.concatenate((lambda_interval,lambda_interval,lambda_interval,lambda_interval,lambda_interval,lambda_interval,lambda_interval,lambda_interval,lambda_interval,lambda_interval),axis=0)
 # Depth interval 
 depth_interval = np.arange(10,20,dtype=int)
 depth_1 = np.concatenate((depth_interval,depth_interval,depth_interval,depth_interval,depth_interval,depth_interval,depth_interval,depth_interval,depth_interval,depth_interval),axis=0)
@@ -63,7 +63,7 @@ for j in outerCV.split(X,y):
 
         # Fit classifier - logistic regression.
         dy_log = []
-        lgr = LogisticRegression(penalty='l2',C=1/lambda_interval[i])
+        lgr = LogisticRegression(penalty='l2',C=1/lambda1[i])
         lgr = lgr.fit(X_train_log,y_train)
         y_est_log = lgr.predict(X_test_log)
         dy_log.append(y_est_log)
@@ -88,8 +88,8 @@ for j in outerCV.split(X,y):
         dy_base = []
         y_est_base = np.ones((np.size(y_est_tree))).T
         dy_base.append(y_est_base)
-        print('yestbase',y_est_base)
-        print('ytest',y_test)
+        # print('yestbase',y_est_base)
+        # print('ytest',y_test)
         # Calculate the error
         de_base = np.sum(y_est_base != y_test) / len(y_test)
         print(de_base)
@@ -125,11 +125,11 @@ for j in outerCV.split(X,y):
 yhat_log = np.concatenate(yhat_log)
 #print('yhat:',yhat)
 y_true_log = np.concatenate(y_true_log) 
-print('test-error_log:',test_error_log)
+print('test-error_log:',test_error_log[-10:])
 print('lambda:',lambda_interval)
 min_error_log = np.min(test_error_log)
 opt_lambda_idx = np.argmin(test_error_log)
-opt_lambda = lambda_interval[opt_lambda_idx]
+opt_lambda = lambda1[opt_lambda_idx]
 print('optimal lambda',opt_lambda)
 z_log = y_true_log - yhat_log
 
@@ -137,7 +137,7 @@ z_log = y_true_log - yhat_log
 yhat_tree = np.concatenate(yhat_tree)
 #print('yhat:',yhat)
 y_true_tree = np.concatenate(y_true_tree) 
-print('test-error_tree:',test_error_tree)
+print('test-error_tree:',test_error_tree[-10:])
 print('depth:',depth_interval)
 min_error = np.min(test_error_tree)
 opt_depth_idx = np.argmin(test_error_tree)
@@ -149,7 +149,7 @@ z_tree = y_true_tree - yhat_tree
 yhat_base = np.concatenate(yhat_base)
 #print('yhat:',yhat)
 y_true_base = np.concatenate(y_true_base) 
-print('test-error_base:',test_error_base)
+print('test-error_base:',test_error_base[-10:])
 # min_error = np.min(test_error_tree)
 # opt_depth_idx = np.argmin(test_error_tree)
 # opt_depth = depth_interval[opt_depth_idx]
@@ -159,18 +159,18 @@ z_base = y_true_base - yhat_base
 # Plot log 
 plt.figure(1)
 plt.title('Optimal lambda: 1e{0}'.format(np.log10(opt_lambda)))
-plt.loglog(lambda_interval,test_error_log,'b.-')
+plt.loglog(lambda1[-10:],test_error_log[-10:],'b.-')
+plt.grid()
 plt.xlabel('Regularization factor')
 plt.ylabel('Error rate (10 fold crossvalidation)')
 plt.legend(['Test error'])
-plt.grid()
 plt.savefig('logreg_fold.png')
 plt.show()
 
 # Plot tree
 plt.figure(2)
 plt.title('Optimal depth')
-plt.plot(depth_1,test_error_tree,'r.-')
+plt.plot(depth_1[-10:],test_error_tree[-10:],'r.-')
 plt.xlabel('Regularization factor')
 plt.ylabel('Error rate (10 fold crossvalidation)')
 plt.legend(['Test error'])

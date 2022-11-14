@@ -12,7 +12,7 @@ from toolbox_02450 import windows_graphviz_call
 from matplotlib.image import imread
 
 CV = model_selection.KFold(n_splits=10)
-
+outerCV = model_selection.KFold(n_splits=10)
 i = 0 
 # Predictions 
 yhat_log = []
@@ -84,7 +84,7 @@ for train_index, test_index in CV.split(X,y):
 
     # Fit classifier - Baseline
     dy_base = []
-    y_est_base = np.ones((np.size(y_est_tree),1))
+    y_est_base = np.ones((np.size(y_est_tree)))
     
     dy_base.append(y_est_base)
     # Calculate the error
@@ -106,7 +106,7 @@ for train_index, test_index in CV.split(X,y):
     y_true_tree.append(y_test) 
     test_error_tree.append(de_tree)
 
-    # Save the estimate tree
+    # Save the estimate base
     dy_base = np.stack(dy_base, axis = 1)
     #print('dy-tree',dy_tree)
     yhat_base.append(dy_base)
