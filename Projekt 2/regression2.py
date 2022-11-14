@@ -15,7 +15,7 @@ import sklearn.linear_model as lm
 from sklearn import model_selection
 from toolbox_02450 import rlr_validate
 from ANN_model import*
-
+#%%
 filename = 'data.csv'
 df = pd.read_csv(filename)
 #df2 = df.apply(pd.to_numeric,errors='coerce')
@@ -33,7 +33,7 @@ for i in range(len(cols)):
 N, M = X.shape
 
     
-#%% 2 LEVEL CROSS VALDIDATION + BASLINE
+
 
 # K1 = K2 = 10
 ## Crossvalidation
@@ -52,6 +52,7 @@ Error_train_rlr = np.empty((K,1))
 Error_test_rlr = np.empty((K,1))
 Error_train_nofeatures = np.empty((K,1))
 Error_test_nofeatures = np.empty((K,1))
+y_predict_nofeature = np.empty((K))
 w_rlr = np.empty((M,K))
 mu = np.empty((K, M-1))
 sigma = np.empty((K, M-1))
@@ -81,24 +82,29 @@ for train_index, test_index in CV.split(X,y):
     Xty = X_train.T @ y_train
     XtX = X_train.T @ X_train
     
+    #BASELINE
     # Compute mean squared error without using the input data at all
     Error_train_nofeatures[k] = np.square(y_train-y_train.mean()).sum(axis=0)/y_train.shape[0]
     Error_test_nofeatures[k] = np.square(y_test-y_test.mean()).sum(axis=0)/y_test.shape[0]
-
+    
+    #2 LEVEL CROSS VALDIDATION
     # Estimate weights for the optimal value of lambda, on entire training set
     lambdaI = opt_lambda * np.eye(M)
     lambdaI[0,0] = 0 # Do no regularize the bias term
     w_rlr[:,k] = np.linalg.solve(XtX+lambdaI,Xty).squeeze()
+    y_prediction = X_test @ w_rlr[:,k]
+    
     # Compute mean squared error with regularization with optimal lambda
     Error_train_rlr[k] = np.square(y_train-X_train @ w_rlr[:,k]).sum(axis=0)/y_train.shape[0]
     Error_test_rlr[k] = np.square(y_test-X_test @ w_rlr[:,k]).sum(axis=0)/y_test.shape[0]
 
-    # Estimate weights for unregularized linear regression, on entire training set
-    w_noreg[:,k] = np.linalg.solve(XtX,Xty).squeeze()
-    # Compute mean squared error without regularization
-    m = lm.LinearRegression().fit(X_train, y_train)
-    Error_train[k] = np.square(y_train-m.predict(X_train)).sum()/y_train.shape[0]
-    Error_test[k] = np.square(y_test-m.predict(X_test)).sum()/y_test.shape[0]
+    # # Estimate weights for unregularized linear regression, on entire training set
+    # w_noreg[:,k] = np.linalg.solve(XtX,Xty).squeeze()
+    
+    # # Compute mean squared error without regularization
+    # m = lm.LinearRegression().fit(X_train, y_train)
+    # Error_train[k] = np.square(y_train-m.predict(X_train)).sum()/y_train.shape[0]
+    # Error_test[k] = np.square(y_test-m.predict(X_test)).sum()/y_test.shape[0]
 
 
 
@@ -121,7 +127,7 @@ for train_index, test_index in CV.split(X,y):
         ylabel('Squared error (crossvalidation)')
         legend(['Train error','Validation error'])
         grid()
-    
+#%%    
     # Display Table
     print('Cross validation fold {0}/{1}:'.format(k+1,K))
     print('- ANN h:                            {0}'.format(h_value[k]))

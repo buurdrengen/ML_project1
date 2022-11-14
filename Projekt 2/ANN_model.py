@@ -40,13 +40,13 @@ CV = model_selection.KFold(K, shuffle=True)
 # Parameters for neural network classifier
 hidden_units = [1, 2, 3]   # number of hidden units
 n_replicates = 1        # number of networks trained in each k-fold
-max_iter = 10000
+max_iter = 5000
 
 # Initialize variables
 Error_train_ANN = np.empty((K,1))
 Error_test_ANN = np.empty((K,1))
-errors = [] # make a list for storing generalizaition error in each loop
-
+errors1 = [] # make a list for storing generalizaition error in each loop
+h_value = []
 
 k=0
 for (k, (train_index, test_index)) in enumerate(CV.split(X,y)): 
@@ -59,13 +59,22 @@ for (k, (train_index, test_index)) in enumerate(CV.split(X,y)):
     y_test = torch.Tensor(y[test_index])
     
     errors = ANN_validate(X_train, y_train,hidden_units,K)
-    h_idx = np.argmin(errors)
-    opt_h = hidden_units[h_idx]
-    
+    h_opt = []
+    #for j in range(0,K):
+    h_opt.append(np.argmin(errors))
+    if h_opt[0] <= 2: 
+        h_opt[0] = h_opt[0] 
+    if h_opt[0]%3 == 0: 
+        h_opt[0] = 0
+    if h_opt[0]%3 == 1: 
+        h_opt[0] = 1
+    if h_opt[0]%3 == 2: 
+        h_opt[0] = 2
+        
     model = lambda: torch.nn.Sequential(
-                        torch.nn.Linear(M, opt_h), #M features to n_hidden_units
+                        torch.nn.Linear(M, hidden_units[h_opt[0]]), #M features to n_hidden_units
                         torch.nn.Tanh(),   # 1st transfer function,
-                        torch.nn.Linear(opt_h, 1), # n_hidden_units to 1 output neuron
+                        torch.nn.Linear(hidden_units[h_opt[0]], 1), # n_hidden_units to 1 output neuron
                         # no final tranfer function, i.e. "linear output"
                         )
     loss_fn = torch.nn.MSELoss()
@@ -85,7 +94,5 @@ for (k, (train_index, test_index)) in enumerate(CV.split(X,y)):
     # Determine errors and errors
     se = (y_test_est.float()-y_test.float())**2 # squared error
     mse = (sum(se).type(torch.float)/len(y_test)).data.numpy() #mean
-    errors.append(mse) # store error rate for current CV fold 
-
-print(se)
-
+    errors1.append(mse) # store error rate for current CV fold 
+    h_value.append(hidden_units[h_opt[0]])
