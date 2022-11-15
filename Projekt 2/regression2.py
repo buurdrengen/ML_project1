@@ -15,30 +15,25 @@ import sklearn.linear_model as lm
 from sklearn import model_selection
 from toolbox_02450 import rlr_validate
 from ANN_model import*
-#%%
+
+#%% IMPORT DATA
 filename = 'data.csv'
 df = pd.read_csv(filename)
-#df2 = df.apply(pd.to_numeric,errors='coerce')
-
 raw_data = df.values  
 
 cols = range(1, 10) 
 X = raw_data[:,cols]
 y = raw_data[:,10]
 
+
 #Transform mean=0 og STD=1
-for i in range(len(cols)):
-    X[:,i] = (X[:,i]-np.mean(X[:,i]))/np.std(X[:,i])
+# for i in range(len(cols)):
+#     X[:,i] = (X[:,i]-np.mean(X[:,i]))/np.std(X[:,i])
     
 N, M = X.shape
 
-    
 
-
-# K1 = K2 = 10
-## Crossvalidation
-# Create crossvalidation partition for evaluation
-
+# K1 = K2 = 10 Crossvalidation
 K = 10
 CV = model_selection.KFold(K, shuffle=True)
 
@@ -70,9 +65,7 @@ for train_index, test_index in CV.split(X,y):
     
     opt_val_err, opt_lambda, mean_w_vs_lambda, train_err_vs_lambda, test_err_vs_lambda = rlr_validate(X_train, y_train, lambdas, internal_cross_validation)
 
-    # Standardize outer fold based on training set, and save the mean and standard
-    # deviations since they're part of the model (they would be needed for
-    # making new predictions) - for brevity we won't always store these in the scripts
+    # Standardize outer fold based on training set
     mu[k, :] = np.mean(X_train[:, 1:], 0)
     sigma[k, :] = np.std(X_train[:, 1:], 0)
     
@@ -85,49 +78,19 @@ for train_index, test_index in CV.split(X,y):
     #BASELINE
     # Compute mean squared error without using the input data at all
     Error_train_nofeatures[k] = np.square(y_train-y_train.mean()).sum(axis=0)/y_train.shape[0]
-    Error_test_nofeatures[k] = np.square(y_test-y_test.mean()).sum(axis=0)/y_test.shape[0]
+    Error_test_nofeatures[k] = np.square(y_test-y_test.mean()).sum(axis=0)/y_test.shape[0]  
     
     #2 LEVEL CROSS VALDIDATION
     # Estimate weights for the optimal value of lambda, on entire training set
     lambdaI = opt_lambda * np.eye(M)
-    lambdaI[0,0] = 0 # Do no regularize the bias term
+    lambdaI[0,0] = 0 # Does not regularize the bias term
     w_rlr[:,k] = np.linalg.solve(XtX+lambdaI,Xty).squeeze()
     y_prediction = X_test @ w_rlr[:,k]
     
     # Compute mean squared error with regularization with optimal lambda
     Error_train_rlr[k] = np.square(y_train-X_train @ w_rlr[:,k]).sum(axis=0)/y_train.shape[0]
     Error_test_rlr[k] = np.square(y_test-X_test @ w_rlr[:,k]).sum(axis=0)/y_test.shape[0]
-
-    # # Estimate weights for unregularized linear regression, on entire training set
-    # w_noreg[:,k] = np.linalg.solve(XtX,Xty).squeeze()
-    
-    # # Compute mean squared error without regularization
-    # m = lm.LinearRegression().fit(X_train, y_train)
-    # Error_train[k] = np.square(y_train-m.predict(X_train)).sum()/y_train.shape[0]
-    # Error_test[k] = np.square(y_test-m.predict(X_test)).sum()/y_test.shape[0]
-
-
-
-    # Display the results for the last cross-validation fold
-    if k == K-1:
-        figure(k, figsize=(12,8))
-        subplot(1,2,1)
-        semilogx(lambdas,mean_w_vs_lambda.T[:,1:],'.-') # Don't plot the bias term
-        xlabel('Regularization factor')
-        ylabel('Mean Coefficient Values')
-        grid()
-        # You can choose to display the legend, but it's omitted for a cleaner 
-        # plot, since there are many attributes
-        #legend(attributeNames[1:], loc='best')
-        
-        subplot(1,2,2)
-        title('Optimal lambda: 1e{0}'.format(np.log10(opt_lambda)))
-        loglog(lambdas,train_err_vs_lambda.T,'b.-',lambdas,test_err_vs_lambda.T,'r.-')
-        xlabel('Regularization factor')
-        ylabel('Squared error (crossvalidation)')
-        legend(['Train error','Validation error'])
-        grid()
-#%%    
+  
     # Display Table
     print('Cross validation fold {0}/{1}:'.format(k+1,K))
     print('- ANN h:                            {0}'.format(h_value[k]))
@@ -139,5 +102,4 @@ for train_index, test_index in CV.split(X,y):
 
     k+=1
 
-show()
 

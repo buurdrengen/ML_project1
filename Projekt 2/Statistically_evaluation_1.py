@@ -16,7 +16,7 @@ from regression2 import y_prediction, y_predict_nofeature
 # perform statistical comparison of the models
 # compute z with squared error.
 
-#y_test_est = y_test_est.detach().numpy()
+y_test_est = y_test_est.detach().numpy()
 zA = np.abs(y_test - y_test_est) ** 2
 
 # compute confidence interval of model A

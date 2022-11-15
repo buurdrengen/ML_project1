@@ -20,7 +20,7 @@ def ANN_validate(X,y,hidden_units,cvf):
     max_iter = 5000
 
     # K-fold crossvalidation
-    K = cvf                 # only three folds to speed up this example
+    K = cvf                 
     CV = model_selection.KFold(K, shuffle=True)
 
 
@@ -60,6 +60,6 @@ def ANN_validate(X,y,hidden_units,cvf):
             se = (y_test_est.float()-y_test.float())**2 # squared error
             mse = (sum(se).type(torch.float)/len(y_test)).data.numpy() #mean
             errors.append(mse) # store error rate for current CV fold 
-            #errors.append(h_index)
+        
             
     return errors

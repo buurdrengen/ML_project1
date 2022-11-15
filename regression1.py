@@ -24,17 +24,16 @@ from sklearn import model_selection
 # IMPORTING DATA
 filename = 'data.csv'
 df = pd.read_csv(filename)
-
-
 raw_data = df.values  
 
 cols = range(1, 10) 
 X = raw_data[:,cols]
 y = raw_data[:,10]
+attributeNames = np.asarray(df.columns[cols])
 
 #Transforming mean=0 og STD=1
-for i in range(len(cols)):
-    X[:,i] = (X[:,i]-np.mean(X[:,i]))/np.std(X[:,i])
+# for i in range(len(cols)):
+#     X[:,i] = (X[:,i]-np.mean(X[:,i]))/np.std(X[:,i])
 
 # K = 10 fold Crossvalidation
 cvf=10
@@ -67,7 +66,6 @@ for train_index, test_index in CV.split(X,y):
     XtX = X_train.T @ X_train
     for l in range(0,len(lambdas)):
         # Compute parameters for current value of lambda and current CV fold
-        # note: "linalg.lstsq(a,b)" is substitue for Matlab's left division operator "\"
         lambdaI = lambdas[l] * np.eye(M)
         lambdaI[0,0] = 0 # remove bias regularization
         w[:,f,l] = np.linalg.solve(XtX+lambdaI,Xty).squeeze()
@@ -103,5 +101,6 @@ title('Effects of the selected attributes')
 semilogx(lambdas,mean_w_vs_lambda.T[:,1:],'.-') # Don't plot the bias term
 xlabel('Regularization factor')
 ylabel('Mean Coefficient Values')
+legend(attributeNames[1:], loc='best')
 grid()
 savefig('weigth1.png')

@@ -13,7 +13,7 @@ import pandas as pd
 from sklearn import model_selection
 from toolbox_02450 import train_neural_net, draw_neural_net
 from scipy import stats
-from inner_loop import ANN_validate
+from annValidation import ANN_validate
 
 #%% IMPORT DATA
 filename = 'data.csv'
@@ -27,7 +27,6 @@ y = X[:,[10]]
 X = X[:,:10]            # CHD Target
 N, M = X.shape
 C = 2
-#attributeNames = np.asarray(df.columns[cols])
 
 # Normalize data
 X = stats.zscore(X) 
@@ -46,7 +45,7 @@ max_iter = 5000
 Error_train_ANN = np.empty((K,1))
 Error_test_ANN = np.empty((K,1))
 errors1 = [] # make a list for storing generalizaition error in each loop
-h_value = []
+h_value = [] # make a list for storing hidden unit in each loop
 
 k=0
 for (k, (train_index, test_index)) in enumerate(CV.split(X,y)): 
@@ -58,7 +57,10 @@ for (k, (train_index, test_index)) in enumerate(CV.split(X,y)):
     X_test = torch.Tensor(X[test_index,:])
     y_test = torch.Tensor(y[test_index])
     
+    # Inner loop
     errors = ANN_validate(X_train, y_train,hidden_units,K)
+    
+    # Extract optimal h and given the right index
     h_opt = []
     #for j in range(0,K):
     h_opt.append(np.argmin(errors))
@@ -70,7 +72,8 @@ for (k, (train_index, test_index)) in enumerate(CV.split(X,y)):
         h_opt[0] = 1
     if h_opt[0]%3 == 2: 
         h_opt[0] = 2
-        
+    
+    # Define model with optimal h
     model = lambda: torch.nn.Sequential(
                         torch.nn.Linear(M, hidden_units[h_opt[0]]), #M features to n_hidden_units
                         torch.nn.Tanh(),   # 1st transfer function,
@@ -95,4 +98,4 @@ for (k, (train_index, test_index)) in enumerate(CV.split(X,y)):
     se = (y_test_est.float()-y_test.float())**2 # squared error
     mse = (sum(se).type(torch.float)/len(y_test)).data.numpy() #mean
     errors1.append(mse) # store error rate for current CV fold 
-    h_value.append(hidden_units[h_opt[0]])
+    h_value.append(hidden_units[h_opt[0]]) # store hidden unit for current CV fold 
