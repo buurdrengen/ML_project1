@@ -1,22 +1,6 @@
 ## Accuracy - MCnemerar ## 
-from outerfolder import * 
+from logreg_fold import * 
 from toolbox_02450.statistics import *
-
-# Compute the Jeffrey interval 
-alpha = 0.05
-
-# Logistic regression 
-[thetahatA, CIA] = jeffrey_interval(y_true_log,yhat_log[:,0],alpha=alpha)
-
-# Tree classifier  
-[thetahatB, CIB] = jeffrey_interval(y_true_tree,yhat_tree[:,0],alpha=alpha)
-
-# Baseline
-[thetahatC, CIC] = jeffrey_interval(y_true_base,yhat_base[:,0],alpha=alpha)
-
-print("Theta point estimate A: ", thetahatA, " CI: ", CIA)
-print("Theta point estimate B: ", thetahatB, " CI: ", CIB)
-print("Theta point estimate C: ", thetahatC, " CI: ", CIC)
 
 # Compute the Jeffreys interval
 alpha = 0.05

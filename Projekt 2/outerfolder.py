@@ -45,8 +45,9 @@ no_CHD = np.count_nonzero(y) #no CHD = 160
 CHD = sizey - no_CHD # CHD = 302
 print('chd,no-chd:',CHD,',',no_CHD)
 for j in outerCV.split(X,y):
+    print('Crossvalidation fold: {0}/{1}'.format(i+1,10))
     for train_index, test_index in CV.split(X,y):
-        print('Crossvalidation fold: {0}/{1}'.format(i+1,10))
+        
 
         # Extract training and test set for current CV fold 
         X_train = X[train_index,:]

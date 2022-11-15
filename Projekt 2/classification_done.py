@@ -258,7 +258,7 @@ plt.grid()
 plt.xlabel('Regularization factor')
 plt.ylabel('Error rate (10 fold crossvalidation)')
 plt.legend(['Test error'])
-plt.savefig('logreg_fold.png')
+#plt.savefig('logreg_fold.png')
 plt.show()
 
 # Plot tree
@@ -269,7 +269,7 @@ plt.xlabel('Regularization factor')
 plt.ylabel('Error rate (10 fold crossvalidation)')
 plt.legend(['Test error'])
 plt.grid()
-plt.savefig('tree_fold.png')
+#plt.savefig('tree_fold.png')
 plt.show()
 
 print('Accuracy_log:{0}'.format(np.count_nonzero(z_log)/np.size(z_log)))
