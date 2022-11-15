@@ -1,5 +1,5 @@
 ## Accuracy - MCnemerar ## 
-from logreg_fold import * 
+from classification_done import * 
 from toolbox_02450.statistics import *
 
 # Compute the Jeffreys interval
