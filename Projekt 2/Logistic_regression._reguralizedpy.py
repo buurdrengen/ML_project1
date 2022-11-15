@@ -28,7 +28,7 @@ X_test = (X_test - mu) / sigma
 # print(X_test) 
 
 # Fit regularized logistic regression model to training data to predict a subject. 
-lambda1 = 2.4770763559917088e-05
+lambda1 = 0.21544346900318823
 
 
 mdl = LogisticRegression(penalty='l2', C=1/lambda1 )
@@ -54,8 +54,6 @@ print('The test error:',test_error_rate)
 # u.append(np.min(a1[2:5]))
 # u.append(np.min(a1[6:9]))
 #print(u)
-import numpy as np 
-np.logspace(-5,1.5,10)
 # c = np.ones([10])
 # print(c)
 # d = np.arange(10,21,dtype=int)
