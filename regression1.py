@@ -31,9 +31,6 @@ X = raw_data[:,cols]
 y = raw_data[:,10]
 attributeNames = np.asarray(df.columns[cols])
 
-#Transforming mean=0 og STD=1
-# for i in range(len(cols)):
-#     X[:,i] = (X[:,i]-np.mean(X[:,i]))/np.std(X[:,i])
 
 # K = 10 fold Crossvalidation
 cvf=10

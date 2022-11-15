@@ -16,8 +16,8 @@ from regression2 import y_prediction, y_predict_nofeature
 # perform statistical comparison of the models
 # compute z with squared error.
 
-y_test_est = y_test_est.detach().numpy()
-zA = np.abs(y_test - y_test_est) ** 2
+#y_test_est = y_test_est.detach().numpy()
+zA = np.abs(y_test - y_test_est[:,0]) ** 2
 
 # compute confidence interval of model A
 alpha = 0.05
@@ -26,14 +26,15 @@ CIA = st.t.interval(1-alpha, df=len(zA)-1, loc=np.mean(zA), scale=st.sem(zA))  #
 # Compute confidence interval of z = zA-zB and p-value of Null hypothesis
 zB = np.abs(y_test - y_prediction) ** 2
 z = zA - zB
-CI = st.t.interval(1-alpha, len(z)-1, loc=np.mean(z), scale=st.sem(z))  # Confidence interval
+CI1 = st.t.interval(1-alpha, len(z)-1, loc=np.mean(z), scale=st.sem(z))  # Confidence interval
 p1 = 2*st.t.cdf( -np.abs( np.mean(z) )/st.sem(z), df=len(z)-1)  # p-value
 print(p1)
+print(CI1)
 
 #%% Comparing ANN model VS Baseline
 # perform statistical comparison of the models
 # compute z with squared error.
-zA = np.abs(y_test - y_test_est) ** 2
+zA = np.abs(y_test - y_test_est[:,0]) ** 2
 
 # compute confidence interval of model A
 alpha = 0.05
@@ -42,9 +43,10 @@ CIA = st.t.interval(1-alpha, df=len(zA)-1, loc=np.mean(zA), scale=st.sem(zA))  #
 # Compute confidence interval of z = zA-zB and p-value of Null hypothesis
 zB = np.abs(y_test - y_test.mean()) ** 2
 z = zA - zB
-CI = st.t.interval(1-alpha, len(z)-1, loc=np.mean(z), scale=st.sem(z))  # Confidence interval
+CI2 = st.t.interval(1-alpha, len(z)-1, loc=np.mean(z), scale=st.sem(z))  # Confidence interval
 p2 = 2*st.t.cdf( -np.abs( np.mean(z) )/st.sem(z), df=len(z)-1)  # p-value
 print(p2)
+print(CI2)
 
 #%% Comparing Baseline VS Linear Regression
 # perform statistical comparison of the models
@@ -58,6 +60,7 @@ CIA = st.t.interval(1-alpha, df=len(zA)-1, loc=np.mean(zA), scale=st.sem(zA))  #
 # Compute confidence interval of z = zA-zB and p-value of Null hypothesis
 zB = np.abs(y_test - y_test.mean()) ** 2
 z = zA - zB
-CI = st.t.interval(1-alpha, len(z)-1, loc=np.mean(z), scale=st.sem(z))  # Confidence interval
+CI3 = st.t.interval(1-alpha, len(z)-1, loc=np.mean(z), scale=st.sem(z))  # Confidence interval
 p3 = 2*st.t.cdf( -np.abs( np.mean(z) )/st.sem(z), df=len(z)-1)  # p-
 print(p3)
+print(CI3)

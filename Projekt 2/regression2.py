@@ -25,10 +25,6 @@ cols = range(1, 10)
 X = raw_data[:,cols]
 y = raw_data[:,10]
 
-
-#Transform mean=0 og STD=1
-# for i in range(len(cols)):
-#     X[:,i] = (X[:,i]-np.mean(X[:,i]))/np.std(X[:,i])
     
 N, M = X.shape
 
