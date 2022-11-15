@@ -55,44 +55,7 @@ print('The test error:',test_error_rate)
 # u.append(np.min(a1[6:9]))
 #print(u)
 import numpy as np 
-a1 = np.array([0.243,0.365,0.763,0.458,0.245,0.378,0.256,0.287,0.393,0.374,0.532,0.489])
-u = []
-h_idx = []
-for i, e in enumerate(a1): 
-    h_idx.append(i)
-    u.append(min(a1[10*i:10*i+2]))
-    print(i)
-    print(e)
-    print(h_idx)
-    print(u)
-h = []
-
-h1 = np.argmin(a1)
-print(h1)
-if h1 <= 2: 
-    h1 = h1 
-if h1/3 == 1: 
-    h1 = 0
-if h1%3 == 1: 
-    h1 = 1
-if h1%3 == 2: 
-    h1 = 2
-print(h1)
-
-for j in range(0,3):
-    print(j)
-    b = a1[j::3]
-    print(b)
-    h.append(np.argmin(b))
-    print(b,h)
-
-u = []
-n = np.array([[0,1,2],[3,4,5],[6,7,8],[9,10,11]])
-print(n)
-for j in n:
-    print(j)
-    u.append(min(a1[n[j,:]]))
-    print(u)
+np.logspace(-5,1.5,10)
 # c = np.ones([10])
 # print(c)
 # d = np.arange(10,21,dtype=int)
